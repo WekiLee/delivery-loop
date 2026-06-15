@@ -1,0 +1,6 @@
+interface:
+  display_name: "业务需求交付闭环"
+  short_description: "中等复杂业务需求从澄清、方案、实现到验收沉淀的交付闭环"
+  default_prompt: "使用 $delivery-loop 处理这个业务需求，从澄清推进到交付验收。"
+policy:
+  allow_implicit_invocation: true

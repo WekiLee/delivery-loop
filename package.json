@@ -1,0 +1,51 @@
+{
+  "name": "delivery-loop",
+  "version": "0.1.0",
+  "description": "端到端业务需求交付闭环 skill，覆盖需求澄清、方案设计、TDD 实现、验收、发布观察与结项沉淀。",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/WekiLee/delivery-loop.git"
+  },
+  "homepage": "https://github.com/WekiLee/delivery-loop#readme",
+  "bugs": {
+    "url": "https://github.com/WekiLee/delivery-loop/issues"
+  },
+  "bin": {
+    "delivery-loop": "bin/install.mjs"
+  },
+  "files": [
+    "SKILL.md",
+    "agents/",
+    "assets/",
+    "references/",
+    "scripts/",
+    "bin/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node --check bin/install.mjs && node --check bin/validate-skill.mjs",
+    "validate": "node bin/validate-skill.mjs",
+    "pack:dry-run": "npm pack --dry-run",
+    "test": "npm run check && npm run validate && npm run pack:dry-run"
+  },
+  "keywords": [
+    "agent",
+    "agent-skills",
+    "codex",
+    "claude-code",
+    "cursor",
+    "openclaw",
+    "opencode",
+    "hermes",
+    "skill",
+    "requirements",
+    "delivery",
+    "workflow"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

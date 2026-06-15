@@ -1,0 +1,20 @@
+node_modules/
+*.tgz
+.DS_Store
+Thumbs.db
+.env
+.env.*
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 本地任务输入、审计记录与证据归档不随发布仓库提交
+0.txt
+recordlogs/
+evidence/
+
+# 本地安装验证或 agent 项目级安装目标
+.agents/
+.claude/
+.opencode/
+skills/
