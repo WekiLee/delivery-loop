@@ -112,9 +112,58 @@ Related materials:
 | Technical planning | Define how to implement and verify the change | Technical Plan, impact scope, test strategy, rollback strategy |
 | TDD implementation | Define correct behavior with tests before implementation | Tests, production changes, small commits |
 | Internal quality gate | Automatically check implementation quality | diff-to-test mapping, lint/static checks, internal review |
+| Execution evaluation (optional) | Quantify delivery quality | 6-dimension score report (process completeness, artifact quality, implementation correctness, safety compliance, efficiency, iteration capability) |
 | Acceptance | Prove the requirement was implemented correctly | Test output, API results, logs, monitoring, configuration state |
 | Release observation | Verify staged rollout and post-release behavior | Monitoring conclusion, incident handling, rollback record |
 | Final knowledge capture | Turn lessons into long-term capability | Business knowledge, process improvements, archived materials |
+
+## Execution Evaluation: Quantifying Delivery Quality
+
+`delivery-loop` includes an optional execution evaluation step (Step 5.5) that uses a **6-dimension quantitative scoring system** to answer "how well did we do this time?" The evaluation is fully deterministic — it checks whether artifact files exist, whether compilation passes, and whether tests run. Zero LLM judges are involved, and running the same case 3 times produces a hash-identical score.
+
+### When to Trigger
+
+| Timing | Use Case | Output |
+|--------|----------|--------|
+| After Step 5 quality gate | Daily development, quick feedback | Score brief, aids acceptance judgment |
+| During Step 8 closeout | Full retrospective, baseline comparison | Detailed score report, stored in memory |
+
+### Six Scoring Dimensions
+
+| Dimension | Weight | What It Checks |
+|-----------|--------|----------------|
+| Process completeness | 25% | Whether artifact files for required stages exist (verified via file system, not AI claims) |
+| Artifact quality | 25% | Whether requirements/plan contain substantive content, not template filler |
+| Implementation correctness | 25% | **Real compilation + real test execution**, never trust self-reports; detects honest gap |
+| Safety compliance | 10% | Whether quality gates were skipped; whether configuration issues were only discovered at acceptance |
+| Efficiency | 10% | Time spent + tool call count, compared against baseline |
+| Iteration capability | 5% | Whether the agent can self-recover from failures (BUILD FAILURE → SUCCESS recovery chain) |
+
+Overall grade: **S (≥90) / A (≥80) / B (≥70) / C (≥60) / D (<60)**.
+
+### How to Use Evaluation
+
+**Option 1: Request directly in conversation**
+
+```text
+$delivery-loop
+Step 5 quality gate has passed. Please run a 6-dimension quantitative evaluation of this execution cycle.
+```
+
+**Option 2: Retrospect at closeout**
+
+```text
+$delivery-loop
+The requirement has completed release observation. Please retrospect this delivery with a 6-dimension evaluation and write the score report to memory.
+```
+
+**Option 3: Use scores to drive workflow improvement**
+
+```text
+Current version → Evaluate (6 dimensions) → Identify weaknesses → Modify process/rules → Re-evaluate and compare scores
+```
+
+You can have the AI use "high-score configurations" to improve "low-score configurations," generating candidate versions and using deterministic scores to verify whether optimizations are effective. The evaluation template is at [`references/eval-template.md`](references/eval-template.md).
 
 ## Collaboration Rules
 
@@ -124,6 +173,7 @@ Related materials:
 - Configuration-related requirements must confirm schema, defaults, rollout strategy, and activation behavior during planning.
 - Acceptance evidence should be saved in project records, not only in conversation.
 - At closeout, separate stable business knowledge, process improvements, and one-off archived material so temporary context does not pollute long-term knowledge.
+- Evaluation scores are hard evidence for process improvement: after each process/rule change, verify with scores whether things improved or worsened, rather than going by intuition.
 
 ## Examples
 
@@ -157,6 +207,13 @@ Final knowledge capture:
 $delivery-loop
 The requirement has completed release observation. Retrospect this delivery and separate stable business knowledge, process improvements, and one-off archived material.
 <paste acceptance and release observation records>
+```
+
+Execution evaluation:
+
+```text
+$delivery-loop
+Run a 6-dimension quantitative evaluation on the artifact files, test results, and process completeness of this delivery cycle. Output a score report with the grade.
 ```
 
 ## Installation
@@ -258,6 +315,8 @@ Command meanings:
 ├── bin/
 │   ├── install.mjs
 │   └── validate-skill.mjs
+├── references/
+│   └── eval-template.md
 ├── package.json
 ├── README.md
 ├── README.en.md
