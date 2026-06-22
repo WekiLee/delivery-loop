@@ -235,10 +235,16 @@ Install to a specific agent's global directory:
 ```bash
 npx delivery-loop --global --agent codex
 npx delivery-loop --global --agent claude-code
+npx delivery-loop --global --agent gemini
 npx delivery-loop --global --agent cursor
+npx delivery-loop --global --agent cursors
 npx delivery-loop --global --agent openclaw
 npx delivery-loop --global --agent opencode
 npx delivery-loop --global --agent hermes
+npx delivery-loop --global --agent windsurf
+npx delivery-loop --global --agent goose
+npx delivery-loop --global --agent mimocode
+npx delivery-loop --global --agent mimo
 ```
 
 Install to a specific agent's project directory:
@@ -246,8 +252,13 @@ Install to a specific agent's project directory:
 ```bash
 npx delivery-loop --project --agent codex
 npx delivery-loop --project --agent claude-code
+npx delivery-loop --project --agent gemini
 npx delivery-loop --project --agent openclaw
 npx delivery-loop --project --agent opencode
+npx delivery-loop --project --agent windsurf
+npx delivery-loop --project --agent goose
+npx delivery-loop --project --agent mimocode
+npx delivery-loop --project --agent mimo
 ```
 
 Common target paths:
@@ -257,10 +268,17 @@ Common target paths:
 | universal | `.agents/skills/delivery-loop` | `~/.config/agents/skills/delivery-loop` |
 | codex | `.agents/skills/delivery-loop` | `~/.codex/skills/delivery-loop` |
 | claude-code | `.claude/skills/delivery-loop` | `~/.claude/skills/delivery-loop` |
-| cursor | `.agents/skills/delivery-loop` | `~/.cursor/skills/delivery-loop` |
+| gemini | `.gemini/skills/delivery-loop` | `~/.gemini/skills/delivery-loop` |
+| cursor / cursors | `.agents/skills/delivery-loop` | `~/.cursor/skills/delivery-loop` |
 | openclaw | `skills/delivery-loop` | `~/.openclaw/skills/delivery-loop` |
 | opencode | `.opencode/skills/delivery-loop` | `~/.config/opencode/skills/delivery-loop` |
 | hermes | Configure an external Hermes directory or specify `--target` | `~/.hermes/skills/delivery-loop` |
+| windsurf | `.windsurf/skills/delivery-loop` | `~/.codeium/windsurf/skills/delivery-loop` |
+| aider | Configure manually or specify `--target` | Configure manually or specify `--target` |
+| goose | `.agents/skills/delivery-loop` | `~/.agents/skills/delivery-loop` |
+| mimocode / mimo | `.mimocode/skills/delivery-loop` | `~/.config/mimocode/skills/delivery-loop` |
+| cline | `.agents/skills/delivery-loop` | `~/.agents/skills/delivery-loop` |
+| zed | `.agents/skills/delivery-loop` | `~/.agents/skills/delivery-loop` |
 
 List supported agent paths:
 
@@ -274,6 +292,8 @@ If your agent uses another directory, specify the final skill directory directly
 npx delivery-loop --target ./vendor/skills/delivery-loop
 ```
 
+Aider does not provide an official skills auto-discovery directory. To use this skill with Aider, choose a directory that Aider can read according to your project configuration, then point `--target` to that directory, or explicitly reference the generated `SKILL.md` in your Aider session.
+
 Use npm's git spec directly from GitHub:
 
 ```bash
@@ -285,8 +305,11 @@ You can also install from GitHub with the open agent skills CLI:
 ```bash
 npx skills add WekiLee/delivery-loop -a codex -g
 npx skills add WekiLee/delivery-loop -a claude-code -g
+npx skills add WekiLee/delivery-loop -a gemini -g
 npx skills add WekiLee/delivery-loop -a openclaw -g
 npx skills add WekiLee/delivery-loop -a opencode -g
+npx skills add WekiLee/delivery-loop -a windsurf -g
+npx skills add WekiLee/delivery-loop -a goose -g
 ```
 
 Project URL: https://github.com/WekiLee/delivery-loop

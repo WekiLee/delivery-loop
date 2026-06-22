@@ -24,8 +24,18 @@ const AGENT_TARGETS = {
     project: [".claude", "skills"],
     global: [".claude", "skills"],
   },
+  gemini: {
+    label: "Gemini CLI",
+    project: [".gemini", "skills"],
+    global: [".gemini", "skills"],
+  },
   cursor: {
     label: "Cursor",
+    project: [".agents", "skills"],
+    global: [".cursor", "skills"],
+  },
+  cursors: {
+    label: "Cursor (Cursors 别名)",
     project: [".agents", "skills"],
     global: [".cursor", "skills"],
   },
@@ -43,6 +53,31 @@ const AGENT_TARGETS = {
     label: "Hermes",
     project: null,
     global: [".hermes", "skills"],
+  },
+  windsurf: {
+    label: "Windsurf",
+    project: [".windsurf", "skills"],
+    global: [".codeium", "windsurf", "skills"],
+  },
+  aider: {
+    label: "Aider（需手动配置）",
+    project: null,
+    global: null,
+  },
+  goose: {
+    label: "Goose",
+    project: [".agents", "skills"],
+    global: [".agents", "skills"],
+  },
+  mimocode: {
+    label: "MiMo Code",
+    project: [".mimocode", "skills"],
+    global: [".config", "mimocode", "skills"],
+  },
+  mimo: {
+    label: "MiMo Code（mimocode 别名）",
+    project: [".mimocode", "skills"],
+    global: [".config", "mimocode", "skills"],
   },
   cline: {
     label: "Cline",
@@ -102,7 +137,11 @@ function printAgents() {
     } else {
       console.log("  项目目录：未提供官方自动发现路径，请使用 --target");
     }
-    console.log(`  全局目录：${path.join("~", ...config.global, SKILL_NAME)}`);
+    if (config.global) {
+      console.log(`  全局目录：${path.join("~", ...config.global, SKILL_NAME)}`);
+    } else {
+      console.log("  全局目录：未提供官方自动发现路径，请使用 --target");
+    }
   }
 }
 
@@ -162,7 +201,11 @@ function resolveTarget(options) {
   const baseDir = options.scope === "global" ? os.homedir() : process.cwd();
   const targetParts = options.scope === "global" ? agentConfig.global : agentConfig.project;
   if (!targetParts) {
-    throw new Error(`${agentConfig.label} 未提供官方项目级自动发现目录。请使用 --global --agent ${options.agent}，或用 --target 指定目录。`);
+    const scopeText = options.scope === "global" ? "全局" : "项目级";
+    const fallback = agentConfig.global && options.scope !== "global"
+      ? `请使用 --global --agent ${options.agent}，或用 --target 指定已配置目录。`
+      : "请用 --target 指定已配置目录，或按该 agent 的官方文档手动配置。";
+    throw new Error(`${agentConfig.label} 未提供官方${scopeText}自动发现目录。${fallback}`);
   }
   return path.join(baseDir, ...targetParts, SKILL_NAME);
 }
